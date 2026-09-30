@@ -2,7 +2,7 @@
 title: "It Starts With One Request"
 description: "Why I'm starting this blog, and what a single curl command teaches about AppSec, pentesting, cloud security and incident response."
 date: 2026-09-30 10:00:00 +0100
-categories: [Meta]
+categories: [Hello World]
 tags: [intro, appsec, pentesting, cloud-security, incident-response]
 pin: true
 ---
@@ -54,8 +54,8 @@ Triage, log analysis and what the first hour of an incident should look like, al
 
 ## What to expect
 
-- ** Commands you can run, checklists you can steal, and reasoning you can apply.
-- ** Tools that didn't deliver, approaches that backfired, and findings I got wrong.
+-  Commands you can run, checklists you can steal, and reasoning you can apply.
+-  Tools that didn't deliver, approaches that backfired, and findings I got wrong.
 
 > Everything here is for education and authorised testing only. If you don't have permission, don't point it at a target.
 {: .prompt-warning }
