@@ -29,7 +29,7 @@ That's what this blog is about: **the gap between what a system is supposed to d
 
 ## Why I'm writing this
 
-I've spent over five years in security across Application Securitypentesting, vulnerability management and SOC/incident handling, and now product security. Along the way, I've noticed that the most useful lessons rarely make it into documentation. They live in Slack threads, triage notes and post-incident retros, and then they're forgotten.
+I've spent over five years in security across Application Security, pentesting, vulnerability management and SOC/incident handling. Along the way, I've noticed that the most useful lessons rarely make it into documentation. They live in Slack threads, triage notes and post-incident retros, and then they're forgotten.
 
 This blog is where I'll write them down properly. Partly for you, and partly so that future me stops relearning the same things.
 
