@@ -16,7 +16,7 @@ timezone: Europe/Dublin
 
 title: Kevin Shaji # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: AppSec,Pentesting, cloud security, and IR learned the hard way # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A security engineers notes on AppSec, scanning at scale,
