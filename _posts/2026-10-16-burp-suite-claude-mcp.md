@@ -13,7 +13,7 @@ Two things changed that. First, my organisation was approved under **Anthropic's
 
 This post covers what CVP actually changes, then walks through the full setup for both **Claude Desktop** and **Claude Code**, and finishes with the guardrails I use so this doesn't become a liability on a client engagement.
 
-> Everything here is for testing systems you are authorised to test. CVP doesn't change that — it makes it a condition of access.
+> Everything here is for testing systems you are authorised to test. CVP doesn't change that   it makes it a condition of access.
 {: .prompt-warning }
 
 ---
@@ -22,15 +22,9 @@ This post covers what CVP actually changes, then walks through the full setup fo
 
 Anthropic's generally available Claude models run real-time cyber safeguards that block or interrupt high-risk dual-use work: exploit validation, malware analysis, adversarial simulation. For a pentester that's the job, so those interruptions happen a lot.
 
-The CVP is Anthropic's free, application-based route around that for vetted security teams. A few things worth knowing before you apply:
+The CVP is Anthropic's free, application-based route around that for vetted security teams. 
 
-- **It's organisation-scoped, not personal.** An admin applies using the organisation ID from your Claude / API account settings, verifies identity, and describes the defensive use case.
-- **It's tiered.** On 6 October 2026 Anthropic merged the original CVP and Project Glasswing into one programme with three tiers — **Defense Access**, **Red Team Access** and **Specialized Access**. Red Team Access is the one that covers authorised penetration testing and simulated attacks, which is what this workflow needs. All tiers include Claude Opus 5.5, Sonnet 5.5 and Mythos 5.1.
-- **Higher tiers need more proof.** Expect to show evidence of your security controls, not just fill in a form.
-- **Data retention is generally required** so Anthropic can monitor for misuse. Factor that into your client data-handling conversations (more on that in Part 4).
-- **Scope still matters.** You may only test systems you're authorised to assess, and some protections stay in place even at the higher tiers — Anthropic has called out critical infrastructure like grid, telecoms and interbank systems.
-
-Once approved, nothing changes in how you *connect* tools. The difference is that Claude stops refusing the middle of a legitimate test. The MCP setup below works with or without CVP — you'll just get much further with it.
+Once approved, nothing changes in how you *connect* tools. The difference is that Claude stops refusing the middle of a legitimate test. The MCP setup below works with or without CVP  you'll just get much further with it.
 
 ---
 
@@ -45,10 +39,10 @@ flowchart LR
 
 The extension runs an MCP server *inside* Burp, listening on `http://127.0.0.1:9876` by default. Claude connects to it either:
 
-- **Directly over SSE** — works with Claude Code and any client that supports remote/SSE servers.
-- **Through a stdio proxy** — a small JAR bundled with the extension that bridges stdio to the SSE server. Claude Desktop uses this route.
+- **Directly over SSE**   works with Claude Code and any client that supports remote/SSE servers.
+- **Through a stdio proxy**   a small JAR bundled with the extension that bridges stdio to the SSE server. Claude Desktop uses this route.
 
-Once connected, Claude gets tools to read proxy history, send HTTP/1.1 and HTTP/2 requests, open Repeater tabs, push requests to Intruder, pull scanner issues (Pro), and handle encoding utilities. The exact list lives in `src/main/kotlin/net/portswigger/mcp/tools/Tools.kt` in the repo — check it for your version, as it grows.
+Once connected, Claude gets tools to read proxy history, send HTTP/1.1 and HTTP/2 requests, open Repeater tabs, push requests to Intruder, pull scanner issues (Pro), and handle encoding utilities. The exact list lives in `src/main/kotlin/net/portswigger/mcp/tools/Tools.kt` in the repo check it for your version, as it grows.
 
 ---
 
@@ -65,7 +59,7 @@ java --version
 jar --version
 ```
 
-### Step 1 — Install the MCP Server extension
+### Step 1 : Install the MCP Server extension
 
 **Option A: BApp Store (easiest).** In Burp go to **Extensions → BApp Store**, search for **MCP Server** (by PortSwigger) and click **Install**.
 
@@ -79,7 +73,7 @@ cd mcp-server
 
 That produces `build/libs/burp-mcp-all.jar`. Load it via **Extensions → Installed → Add**, set **Extension type** to **Java**, select the JAR, and click **Next**.
 
-### Step 2 — Configure the MCP tab
+### Step 2 : Configure the MCP tab
 
 A new **MCP** tab appears in Burp. Check:
 
@@ -97,7 +91,7 @@ curl -i --max-time 3 http://127.0.0.1:9876
 
 Any HTTP response (even an error status) means the server is up. "Connection refused" means it isn't enabled or the port is different.
 
-### Step 3a — Connect Claude Desktop
+### Step 3a : Connect Claude Desktop
 
 Claude Desktop launches local servers over stdio, so it uses the bundled proxy JAR.
 
@@ -132,7 +126,7 @@ Use the Java runtime bundled with Burp rather than your system Java to avoid ver
 
 Fully quit and reopen Claude Desktop. Burp must already be running, or the proxy has nothing to connect to.
 
-### Step 3b — Connect Claude Code
+### Step 3b : Connect Claude Code
 
 Claude Code can talk to the SSE server directly, no proxy JAR needed:
 
@@ -159,7 +153,7 @@ If your client version expects the explicit path, use `http://127.0.0.1:9876/sse
 claude mcp add burp -- /path/to/burp/java -jar /path/to/mcp-proxy-all.jar --sse-url http://127.0.0.1:9876
 ```
 
-### Step 4 — Sanity check
+### Step 4 : Sanity check
 
 With some traffic already in proxy history, start with something read-only:
 
@@ -191,7 +185,7 @@ Some prompts I reach for on authorised tests:
 > Go through proxy history for the in-scope host. Identify endpoints that take an object ID in the path or body, and list which of them returned 200 for both user A's and user B's session. Don't send any new requests.
 
 **Build an IDOR test plan, then execute with approval**
-> For the endpoints you found, create a Repeater tab per endpoint with user B's cookie swapped in. Don't send them yet — I'll review first.
+> For the endpoints you found, create a Repeater tab per endpoint with user B's cookie swapped in.
 
 **Explain a scanner finding in context** (Pro)
 > Pull the scanner issues for this host. For each high or medium, explain whether it's likely exploitable given the request/response, and what I'd need to confirm manually.
@@ -207,8 +201,8 @@ The pattern that works best: let Claude **read and organise** freely, but make i
 
 | Symptom | Likely fix |
 |---|---|
-| Claude Desktop shows no Burp tools | Burp wasn't running when Claude started — start Burp first, then fully restart Claude Desktop |
-| `Connection refused` on 9876 | MCP tab not enabled, or you changed the port — update the URL everywhere |
+| Claude Desktop shows no Burp tools | Burp wasn't running when Claude started start Burp first, then fully restart Claude Desktop |
+| `Connection refused` on 9876 | MCP tab not enabled, or you changed the port update the URL everywhere |
 | `burp` shows as disconnected in `claude mcp list` | Re-check the URL; try `/sse` or switch to the stdio proxy |
 | Java errors launching the proxy | Point `command` at Burp's bundled Java, not system Java |
 | Claude still refuses mid-test | Confirm you're using the account/organisation enrolled in CVP, and the work fits your access tier |
@@ -218,7 +212,7 @@ The pattern that works best: let Claude **read and organise** freely, but make i
 
 ## Wrapping up
 
-The MCP extension turns Claude from something I paste into into something that sits alongside Burp, and CVP removes most of the friction on legitimate offensive work. Neither removes the need for scope, authorisation and judgement — if anything, they raise the stakes on getting those right.
+The MCP extension turns Claude from something I paste into into something that sits alongside Burp, and CVP removes most of the friction on legitimate offensive work. Neither removes the need for scope, authorisation and judgement if anything, they raise the stakes on getting those right.
 
 Next up, I want to try adding a custom tool to the extension for our internal auth flow. I'll write that up when it works.
 
@@ -227,5 +221,5 @@ Next up, I want to try adding a custom tool to the extension for our internal au
 - [PortSwigger MCP Server extension (GitHub)](https://github.com/PortSwigger/mcp-server)
 - [MCP Server on the BApp Store](https://portswigger.net/bappstore/9952290f04ed4f628e624d0aa9dccebc)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Anthropic widens access to AI cyber capabilities for vetted security teams — CSO Online](https://www.csoonline.com/article/4231812/anthropic-widens-access-to-ai-cyber-capabilities-for-vetted-security-teams.html)
-- [Anthropic loosens Claude's cyber restrictions for verified defenders — Help Net Security](https://www.helpnetsecurity.com/?p=387030)
+- [Anthropic widens access to AI cyber capabilities for vetted security teams   CSO Online](https://www.csoonline.com/article/4231812/anthropic-widens-access-to-ai-cyber-capabilities-for-vetted-security-teams.html)
+- [Anthropic loosens Claude's cyber restrictions for verified defenders   Help Net Security](https://www.helpnetsecurity.com/?p=387030)
